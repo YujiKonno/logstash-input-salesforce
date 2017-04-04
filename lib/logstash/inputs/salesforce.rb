@@ -104,19 +104,19 @@ class LogStash::Inputs::Salesforce < LogStash::Inputs::Base
           obj_fld_separator = "."
           if field.index(obj_fld_separator)
             rel_obj_field = field.split(obj_fld_separator)
-			rel_obj_field_num = rel_obj_field.length
+	    rel_obj_field_num = rel_obj_field.length
 			
-			startIndex = 0						
-			if rel_obj_field[startIndex] == @sfdc_object_name then
-			  startIndex += 1
-			end
+	    startIndex = 0						
+	    if rel_obj_field[startIndex] == @sfdc_object_name then
+	    	startIndex += 1
+	    end
 			
-			value = result[rel_obj_field[startIndex]]
-			startIndex += 1
+	    value = result[rel_obj_field[startIndex]]
+	    startIndex += 1
 			
-			for index in startIndex..rel_obj_field_num-1
-				value = value[rel_obj_field[index]]
-			end
+	    for index in startIndex..rel_obj_field_num-1
+	    	value = value[rel_obj_field[index]]
+	    end
 			
           else
             value = result[field]
