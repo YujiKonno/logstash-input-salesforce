@@ -102,6 +102,7 @@ class LogStash::Inputs::Salesforce < LogStash::Inputs::Base
         @sfdc_fields.each do |field|
           field_type = @sfdc_field_types[field]
           obj_fld_separator = "."
+
           if field.index(obj_fld_separator)
             rel_obj_field = field.split(obj_fld_separator)
 	    rel_obj_field_num = rel_obj_field.length
@@ -119,6 +120,7 @@ class LogStash::Inputs::Salesforce < LogStash::Inputs::Base
 	    end
 			
           else
+
             value = result[field]
           end
            @logger.debug? && @logger.debug("run-> Fields value", :field => field, :value => value)
