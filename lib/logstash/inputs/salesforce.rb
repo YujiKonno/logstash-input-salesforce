@@ -101,7 +101,27 @@ class LogStash::Inputs::Salesforce < LogStash::Inputs::Base
         decorate(event)
         @sfdc_fields.each do |field|
           field_type = @sfdc_field_types[field]
-          value = result.send(field)
+          obj_fld_separator = "."
+          if field.index(obj_fld_separator)
+            rel_obj_field = field.split(obj_fld_separator)
+			rel_obj_field_num = rel_obj_field.length
+			
+			startIndex = 0						
+			if rel_obj_field[startIndex] == @sfdc_object_name then
+			  startIndex += 1
+			end
+			
+			value = result[rel_obj_field[startIndex]]
+			startIndex += 1
+			
+			for index in startIndex..rel_obj_field_num-1
+				value = value[rel_obj_field[index]]
+			end
+			
+          else
+            value = result[field]
+          end
+           @logger.debug? && @logger.debug("run-> Fields value", :field => field, :value => value)
           event_key = @to_underscores ? underscore(field) : field
           if not value.nil?
             case field_type
