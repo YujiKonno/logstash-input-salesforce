@@ -120,7 +120,6 @@ class LogStash::Inputs::Salesforce < LogStash::Inputs::Base
 	    end
 			
           else
-
             value = result[field]
           end
            @logger.debug? && @logger.debug("run-> Fields value", :field => field, :value => value)
